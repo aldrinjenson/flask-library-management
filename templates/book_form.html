@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="addbook">
+  <form action="/books/{{route}}" method="POST">
+    <div class="row mt-5 p-3">
+      <input value="{{book.title or ""}}" type="text" name="title" placeholder="Book Title">
+      <input value="{{book.author or ""}}" type="text" name="author" placeholder="Book Author">
+      <input value="{{book.isbn or ""}}" type="text" name="isbn" placeholder="ISBN">
+      <input value="{{book.language or ""}}" type="text" name="language" placeholder="Book Language">
+    </div>
+    <input value="{{book.rating}}" type="number" name="rating" min="0" max="5.0" placeholder="Book rating">
+    <input value="{{book.quantity}}" type="number" name="quantity" placeholder="Book Quantity">
+</div>
+
+<input class="btn btn-success m-4" type="submit" />
+</form>
+
+
+{% endblock %}
