@@ -1,2 +1,6 @@
 */bootstrap/*
 static/css/bootstrap
+*/__pycache__/*
+__pycache__
+bootstrap/
+.vscode

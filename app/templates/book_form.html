@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block body %}
 <div class="addbook">
-  <form action="/books/{{route}}" method="POST">
+  <form action="/books/{{route}}/{{book.id}}" method="POST">
     <div class="row mt-5 p-3">
       <input value="{{book.title or ""}}" type="text" name="title" placeholder="Book Title">
       <input value="{{book.author or ""}}" type="text" name="author" placeholder="Book Author">

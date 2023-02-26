@@ -1,55 +1,14 @@
+from app import app, db
 from flask import Flask, render_template, request, redirect
-from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
-from sqlalchemy import or_
-
-db = SQLAlchemy()
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
-db.init_app(app)
+from app.model.Book import Book
 
 
-class Member(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, unique=True, nullable=False)
-    first_name = db.Column(db.String(30), nullable=False)
-    last_name = db.Column(db.String(30), nullable=False)
-    email = db.Column(db.String)
-    date_added = db.Column(db.DateTime, default=datetime.utcnow())
-
-
-class Book(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(50), nullable=False)
-    isbn = db.Column(db.String(50), unique=True, nullable=False)
-    author = db.Column(db.String, nullable=False)
-    language = db.Column(db.String, default="English")
-    quantity = db.Column(db.Integer, default=1)
-    rating = db.Column(db.Float, default=5)
-    date_added = db.Column(db.DateTime, default=datetime.utcnow())
-
-    def __init__(self,
-                 title,
-                 isbn,
-                 author,
-                 rating,
-                 language="English",
-                 quantity=1):
-        self.title = title
-        self.isbn = isbn
-        self.language = language
-        self.quantity = quantity
-        self.rating = rating
-        self.author = author
-
-
-# with app.app_context():
-#     db.create_all()
-
-
-@app.route('/')
-def index():
-    return render_template('dashboard.html')
+@app.route("/books/")
+def books():
+    print(Book)
+    books = Book.query.order_by(Book.date_added).all()
+    print(books)
+    return render_template('books.html', books=books)
 
 
 @app.route('/books/search/', methods=["POST"])
@@ -64,13 +23,6 @@ def getSearchResults():
     print(sqlQuery)
     filteredBooks = Book.query.filter(sqlQuery).all()
     return render_template('books.html', books=filteredBooks)
-
-
-@app.route("/books/")
-def books():
-    books = Book.query.order_by(Book.date_added).all()
-    print(books)
-    return render_template('books.html', books=books)
 
 
 @app.route('/books/add/', methods=["GET", "POST"])
@@ -94,10 +46,10 @@ def addBooks():
         db.session.commit()
         return redirect('/books')
     else:
-        return render_template('book_form.html', book={}, route="/add")
+        return render_template('book_form.html', book={}, route="add")
 
 
-@app.route('/books/edit/<int:id>')
+@app.route('/books/edit/<int:id>', methods=["GET", "POST"])
 def editBook(id):
     selectedBook = Book.query.get_or_404(id)
     print(selectedBook)
@@ -116,4 +68,4 @@ def editBook(id):
     else:
         return render_template('book_form.html',
                                book=selectedBook,
-                               route="/edit")
+                               route="edit")
