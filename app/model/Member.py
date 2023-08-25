@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from app import db
 
 
 class Member(db.Model):
@@ -8,4 +9,5 @@ class Member(db.Model):
     first_name = db.Column(db.String(30), nullable=False)
     last_name = db.Column(db.String(30), nullable=False)
     email = db.Column(db.String)
+    location = db.Column(db.String)
     date_added = db.Column(db.DateTime, default=datetime.utcnow())

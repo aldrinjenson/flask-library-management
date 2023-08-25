@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="addmember mt-5">
+        <form action="/members/{{route}}/{{member.id}}" method="POST">
+          <div class="mb-3">
+            <input value="{{member.first_name or ""}}" type="text" class="form-control" name="first_name"
+              placeholder="Member First Name">
+          </div>
+          <div class="mb-3">
+            <input value="{{member.last_name or ""}}" type="text" class="form-control" name="last_name"
+              placeholder="Member Last Name">
+          </div>
+          <div class="mb-3">
+            <input value="{{member.email or ""}}" type="text" class="form-control" name="email" placeholder="Email">
+          </div>
+          <div class="mb-3">
+            <input value="{{member.username or ""}}" type="text" class="form-control" name="username"
+              placeholder="Username">
+          </div>
+          <div class="mb-3">
+            <input value="{{member.location or ""}}" type="text" class="form-control" name="location"
+              placeholder="Member Location">
+          </div>
+          <button class="btn btn-success mt-3" type="submit">Add Member</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

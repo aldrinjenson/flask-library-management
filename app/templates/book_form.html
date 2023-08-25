@@ -1,19 +1,37 @@
 {% extends 'base.html' %}
+
 {% block body %}
-<div class="addbook">
-  <form action="/books/{{route}}/{{book.id}}" method="POST">
-    <div class="row mt-5 p-3">
-      <input value="{{book.title or ""}}" type="text" name="title" placeholder="Book Title">
-      <input value="{{book.author or ""}}" type="text" name="author" placeholder="Book Author">
-      <input value="{{book.isbn or ""}}" type="text" name="isbn" placeholder="ISBN">
-      <input value="{{book.language or ""}}" type="text" name="language" placeholder="Book Language">
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="addbook mt-5">
+        <form action="/books/{{route}}/{{book.id}}" method="POST">
+          <div class="mb-3">
+            <input value="{{book.title or ""}}" type="text" class="form-control" name="title" placeholder="Book Title">
+          </div>
+          <div class="mb-3">
+            <input value="{{book.author or ""}}" type="text" class="form-control" name="author"
+              placeholder="Book Author">
+          </div>
+          <div class="mb-3">
+            <input value="{{book.isbn or ""}}" type="text" class="form-control" name="isbn" placeholder="ISBN">
+          </div>
+          <div class="mb-3">
+            <input value="{{book.language or ""}}" type="text" class="form-control" name="language"
+              placeholder="Book Language">
+          </div>
+          <div class="mb-3">
+            <input value="{{book.rating}}" type="number" class="form-control" name="rating" min="0" max="5"
+              placeholder="Book Rating">
+          </div>
+          <div class="mb-3">
+            <input value="{{book.quantity}}" type="number" class="form-control" name="quantity"
+              placeholder="Book Quantity">
+          </div>
+          <button class="btn btn-success mt-3" type="submit">Add Book</button>
+        </form>
+      </div>
     </div>
-    <input value="{{book.rating}}" type="number" name="rating" min="0" max="5.0" placeholder="Book rating">
-    <input value="{{book.quantity}}" type="number" name="quantity" placeholder="Book Quantity">
+  </div>
 </div>
-
-<input class="btn btn-success m-4" type="submit" />
-</form>
-
-
 {% endblock %}
