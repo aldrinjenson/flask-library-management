@@ -35,6 +35,36 @@
 
   </nav>
 
+  <!-- <div class="flash-messages container mt-3">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class="list-unstyled mb-0">
+      {% for message in messages %}
+      <li class="alert alert-success mb-2" role="alert">
+        {{ message }}
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+  </div> -->
+
+  <div class="flash-messages container mt-3">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class="list-unstyled mb-0">
+      {% for message in messages %}
+      <li class="alert alert-success alert-dismissible fade show mb-2" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+  </div>
+
+
   {% block body %} {% endblock %}
 
 </body>

@@ -1,5 +1,5 @@
 from app import app, db
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash, url_for
 from app.model.Book import Book
 
 
@@ -12,7 +12,6 @@ def books():
 
 @app.route("/books/search/", methods=["POST"])
 def getSearchResults():
-    print(request.form)
     query = request.form["query"].lower()
     queryType = request.form["type"]
     sqlQuery = Book.title.ilike(f"%{query}%")
@@ -61,8 +60,16 @@ def editBook(id):
             selectedBook.quantity = request.form.get("quantity", 1)
             selectedBook.rating = request.form.get("rating", 5)
             db.session.commit()
-            return "Book Updated successfully !"
+            flash("Book Updated successfully")
         except:
-            return "Error in updating book details. Check server logs!"
+            flash("Error in updating book details. Check server logs!")
+        return redirect(url_for("books"))
     else:
         return render_template("book_form.html", book=selectedBook, route="edit")
+
+
+@app.route("/books/delete/<int:id>", methods=["GET"])
+def deleteBook(id):
+    selectedBook = Book.query.get_or_404(id)
+    print(selectedBook)
+    return render_template("book_form.html", book=selectedBook)

@@ -25,7 +25,14 @@
             <input value="{{member.location or ""}}" type="text" class="form-control" name="location"
               placeholder="Member Location">
           </div>
-          <button class="btn btn-success mt-3" type="submit">Add Member</button>
+          <button class="btn btn-success mt-3" type="submit">
+            {% if route == "edit" %}
+            Edit
+            {% else %}
+            Add
+            {% endif %}
+            Member
+          </button>
         </form>
       </div>
     </div>

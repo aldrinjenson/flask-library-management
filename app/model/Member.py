@@ -11,3 +11,4 @@ class Member(db.Model):
     email = db.Column(db.String)
     location = db.Column(db.String)
     date_added = db.Column(db.DateTime, default=datetime.utcnow())
+    date_updated = db.Column(db.DateTime, default=datetime.utcnow())

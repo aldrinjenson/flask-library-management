@@ -6,29 +6,45 @@
     <div class="col-lg-6">
       <div class="addbook mt-5">
         <form action="/books/{{route}}/{{book.id}}" method="POST">
-          <div class="mb-3">
-            <input value="{{book.title or ""}}" type="text" class="form-control" name="title" placeholder="Book Title">
+          <div class="mb-4">
+            <label for="title" class="form-label">Book Title</label>
+            <input value="{{book.title or ""}}" type="text" class="form-control" id="title" name="title"
+              placeholder="Enter book title">
           </div>
-          <div class="mb-3">
-            <input value="{{book.author or ""}}" type="text" class="form-control" name="author"
-              placeholder="Book Author">
+          <div class="mb-4">
+            <label for="author" class="form-label">Book Author</label>
+            <input value="{{book.author or ""}}" type="text" class="form-control" id="author" name="author"
+              placeholder="Enter book author">
           </div>
-          <div class="mb-3">
-            <input value="{{book.isbn or ""}}" type="text" class="form-control" name="isbn" placeholder="ISBN">
+          <div class="mb-4">
+            <label for="isbn" class="form-label">ISBN</label>
+            <input value="{{book.isbn or ""}}" type="text" class="form-control" id="isbn" name="isbn"
+              placeholder="Enter ISBN">
           </div>
-          <div class="mb-3">
-            <input value="{{book.language or ""}}" type="text" class="form-control" name="language"
-              placeholder="Book Language">
+          <div class="mb-4">
+            <label for="language" class="form-label">Book Language</label>
+            <input value="{{book.language or ""}}" type="text" class="form-control" id="language" name="language"
+              placeholder="Enter book language">
           </div>
-          <div class="mb-3">
-            <input value="{{book.rating}}" type="number" class="form-control" name="rating" min="0" max="5"
-              placeholder="Book Rating">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="rating" class="form-label">Book Rating</label>
+              <input value="{{book.rating}}" type="number" class="form-control" id="rating" name="rating" min="0"
+                max="5" placeholder="Enter book rating">
+            </div>
+            <div class="col-md-6">
+              <label for="quantity" class="form-label">Book Quantity</label>
+              <input value="{{book.quantity}}" type="number" class="form-control" id="quantity" name="quantity"
+                placeholder="Enter book quantity">
+            </div>
           </div>
-          <div class="mb-3">
-            <input value="{{book.quantity}}" type="number" class="form-control" name="quantity"
-              placeholder="Book Quantity">
-          </div>
-          <button class="btn btn-success mt-3" type="submit">Add Book</button>
+          <button class="btn btn-success mt-4" type="submit">
+            {% if route == "edit" %}
+            Edit Book
+            {% else %}
+            Add Book
+            {% endif %}
+          </button>
         </form>
       </div>
     </div>
