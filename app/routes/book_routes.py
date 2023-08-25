@@ -7,7 +7,7 @@ from app.model.Book import Book
 def books():
     books = Book.query.order_by(Book.date_added).all()
     print(books)
-    return render_template("books.html", books=books)
+    return render_template("books/list.html", books=books)
 
 
 @app.route("/books/search/", methods=["POST"])
@@ -20,7 +20,7 @@ def getSearchResults():
 
     print(sqlQuery)
     filteredBooks = Book.query.filter(sqlQuery).all()
-    return render_template("books.html", books=filteredBooks)
+    return render_template("books/list.html", books=filteredBooks)
 
 
 @app.route("/books/add/", methods=["GET", "POST"])
@@ -44,7 +44,7 @@ def addBooks():
         db.session.commit()
         return redirect("/books")
     else:
-        return render_template("book_form.html", book={}, route="add")
+        return render_template("books/form.html", book={}, route="add")
 
 
 @app.route("/books/edit/<int:id>", methods=["GET", "POST"])
@@ -65,7 +65,7 @@ def editBook(id):
             flash("Error in updating book details. Check server logs!")
         return redirect(url_for("books"))
     else:
-        return render_template("book_form.html", book=selectedBook, route="edit")
+        return render_template("books/form.html", book=selectedBook, route="edit")
 
 
 @app.route("/books/delete/<int:id>", methods=["GET"])

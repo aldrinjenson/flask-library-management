@@ -8,7 +8,7 @@ from app.model.Member import Member
 def members():
     members = Member.query.order_by(Member.date_added).all()
     print(members)
-    return render_template("members.html", members=members)
+    return render_template("members/list.html", members=members)
 
 
 @app.route("/members/add/", methods=["GET", "POST"])
@@ -31,7 +31,7 @@ def addMembers():
         db.session.commit()
         return redirect("/members")
     else:
-        return render_template("member_form.html", member={}, route="add")
+        return render_template("members/form.html", member={}, route="add")
 
 
 @app.route("/members/edit/<int:id>", methods=["GET", "POST"])
@@ -55,7 +55,7 @@ def editMember(id):
             flash("Error in updating member details. Check server logs!")
         return redirect(url_for("members"))
     else:
-        return render_template("member_form.html", member=selectedMember, route="edit")
+        return render_template("members/form.html", member=selectedMember, route="edit")
 
 
 @app.route("/members/search/", methods=["POST"])
@@ -70,7 +70,7 @@ def get_member_search_results():
     # Combine both lists of matches without duplicates
     filtered_members = list(set(first_name_matches + last_name_matches))
 
-    return render_template("members.html", members=filtered_members)
+    return render_template("members/list.html", members=filtered_members)
 
 
 @app.route("/members/delete/<int:id>", methods=["GET"])
