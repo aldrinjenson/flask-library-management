@@ -72,4 +72,10 @@ def editBook(id):
 def deleteBook(id):
     selectedBook = Book.query.get_or_404(id)
     print(selectedBook)
-    return render_template("book_form.html", book=selectedBook)
+    if selectedBook:
+        db.session.delete(selectedBook)
+        db.session.commit()
+        flash("Book deleted successfully.", "success")
+    else:
+        flash("Invalid Book id to delete!", "danger")
+    return redirect("/members")

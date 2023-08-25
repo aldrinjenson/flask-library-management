@@ -71,3 +71,16 @@ def get_member_search_results():
     filtered_members = list(set(first_name_matches + last_name_matches))
 
     return render_template("members.html", members=filtered_members)
+
+
+@app.route("/members/delete/<int:id>", methods=["GET"])
+def deleteMember(id):
+    selectedMember = Member.query.get_or_404(id)
+    print(selectedMember)
+    if selectedMember:
+        db.session.delete(selectedMember)
+        db.session.commit()
+        flash("Member deleted successfully.", "success")
+    else:
+        flash("Member not found.", "danger")
+    return redirect("/members")
