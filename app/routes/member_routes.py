@@ -9,7 +9,6 @@ from app.utils import calculate_total_fine
 @app.route("/members")
 def members():
     members = Member.query.order_by(Member.date_added).all()
-    print(members)
     return render_template("members/list.html", members=members)
 
 
@@ -39,7 +38,6 @@ def addMembers():
 @app.route("/members/edit/<int:id>", methods=["GET", "POST"])
 def editMember(id):
     selectedMember = Member.query.get_or_404(id)
-    print(selectedMember)
     if request.method == "POST":
         try:
             selectedMember.first_name = request.form.get("first_name")
@@ -78,7 +76,6 @@ def get_member_search_results():
 @app.route("/members/delete/<int:id>", methods=["GET"])
 def deleteMember(id):
     selectedMember = Member.query.get_or_404(id)
-    print(selectedMember)
     if selectedMember:
         db.session.delete(selectedMember)
         db.session.commit()

@@ -1,14 +1,14 @@
 {% extends 'base.html' %} {% block body %}
 <div class="container">
     {% if members | length < 1 %} <div class="mt-5">
-        <p>No Members have yet been added to the database.</p>
+        <p>No members have been added to the database yet.</p>
         <p>Click <a href="/members/add">here</a> to add a new member.</p>
 </div>
 {% else %}
 <div class="row justify-content-center m-3">
     <div class="col-12 col-md-6">
         <form action="/members/search/" method="post" class="d-flex">
-            <input type="text" name="query" class="form-control me-2" placeholder="Search Members." />
+            <input type="text" name="query" class="form-control me-2" placeholder="Search Members" />
             <button type="submit" class="btn btn-primary">Search</button>
         </form>
     </div>
@@ -20,24 +20,20 @@
 
 <div class="row">
     {% for member in members %}
-    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
         <div class="card">
-            <a href="/members/{{member.id}}" class="card-body">
-                <h5 class="card-title">{{member.first_name}} {{member.last_name}}</h5>
+            <a href="/members/{{member.id}}" class="card-body text-decoration-none">
+                <h5 class="card-title text-decoration-underline">{{member.first_name}} {{member.last_name}}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">{{member.username}}</h6>
                 <p class="card-text"><b>Email:</b> {{member.email}}</p>
-                <p class="card-text">
-                    <b>Date Added:</b> {{ member.date_added.strftime('%Y-%m-%d
-                    %H:%M') }}
-                </p>
-                <p class="card-text">
-                    <b>Last Updated:</b> {{ member.date_updated.strftime('%Y-%m-%d
-                    %H:%M') }}
-                </p>
+                <p class="card-text"><b>Date Added:</b> {{ member.date_added.strftime('%Y-%m-%d %H:%M') }}</p>
+                <p class="card-text"><b>Last Updated:</b> {{ member.date_updated.strftime('%Y-%m-%d %H:%M') }}</p>
                 <p class="card-text"><b>Location:</b> {{member.location}}</p>
-                <a href="/members/edit/{{member.id}}" class="card-link">Edit Member</a>
-                <a href="/members/delete/{{member.id}}" class="card-link">Delete Member</a>
             </a>
+            <div class="card-footer">
+                <a href="/members/edit/{{member.id}}" class="btn btn-sm btn-outline-primary">Edit Member</a>
+                <a href="/members/delete/{{member.id}}" class="btn btn-sm btn-outline-danger">Delete Member</a>
+            </div>
         </div>
     </div>
     {% endfor %}

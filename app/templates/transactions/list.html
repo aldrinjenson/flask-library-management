@@ -19,10 +19,17 @@
             {% for transaction in transactions %}
             <tr>
                 <td>{{ transaction.id }}</td>
-                <td>{{ transaction.member.first_name }} {{ transaction.member.last_name }}
-                    (id={{transaction.member.id}})
+                <td>
+                    <a href="/members/{{transaction.member.id}}">
+                        {{ transaction.member.first_name }} {{ transaction.member.last_name }}
+                        (id={{transaction.member.id}})
+                    </a>
                 </td>
-                <td>{{ transaction.book.title }} (id={{transaction.book.id}}) </td>
+                <td>
+                    <a href="/books/{{transaction.book.id}}">
+                        {{ transaction.book.title }} (id={{transaction.book.id}})
+                    </a>
+                </td>
                 <td>{{ transaction.issue_date }}</td>
                 <td>{{ transaction.due_date }}</td>
                 <td>{{ transaction.return_date or "Not returned" }}</td>

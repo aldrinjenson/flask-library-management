@@ -33,7 +33,7 @@ def get_more_book_details(isbn):
         return {}
 
 
-fine_per_day = 1
+fine_per_day = 10
 
 
 def calculate_total_fine(transactions):

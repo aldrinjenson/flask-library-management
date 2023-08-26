@@ -2,6 +2,7 @@ from app import app, db
 from flask import Flask, render_template, request, redirect, flash, url_for, jsonify
 from datetime import datetime, timedelta
 from app.model.Transaction import Transaction
+from app.utils import calculate_total_fine
 
 
 @app.route("/transactions")
@@ -13,10 +14,23 @@ def get_transactions():
 @app.route("/transaction/add", methods=["POST"])
 def add_transaction():
     member_id = request.form.get("member")
-    book_id = request.form.get("bookId")
+    book_id = int(request.form.get("bookId"))
 
     issue_date = datetime.utcnow().date()
     due_date = issue_date + timedelta(days=7)
+
+    users_transactions = Transaction.query.filter_by(member_id=member_id).all()
+    print(users_transactions)
+    for transaction in users_transactions:
+        if transaction.book_id == book_id and transaction.return_date is None:
+            print("inside")
+            flash("User is already holding this book", category="error")
+            return redirect("/books")
+
+    total_fine_of_user = calculate_total_fine(users_transactions)
+    if total_fine_of_user > 500:
+        flash("Fine exceeds 500Rs. Can't borrow more books.", category="error")
+        return redirect("/books")
 
     new_transaction = Transaction(
         member_id=member_id,

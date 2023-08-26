@@ -1,0 +1,33 @@
+{% extends 'base.html' %} {% block body %}
+<div class="homepage-container d-flex align-items-center justify-content-center">
+  <div class="text-center">
+    <h1>Welcome to BookArena</h1>
+    <p>Your Ultimate Library Experience</p>
+    <div class="d-flex justify-content-center flex-wrap">
+      <a href="/books" class="btn btn-primary m-2">Browse Books</a>
+      <a href="/members" class="btn btn-primary m-2">Browse Members</a>
+    </div>
+  </div>
+</div>
+<style>
+  .homepage-container {
+    height: 80vh;
+    background-color: #f8f9fa;
+  }
+
+  .homepage-container h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .homepage-container p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .btn-primary {
+    font-size: 1.2rem;
+    padding: 0.75rem 2rem;
+  }
+</style>
+{% endblock %}

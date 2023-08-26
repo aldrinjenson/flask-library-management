@@ -38,11 +38,12 @@
   </nav>
 
   <div class="flash-messages container mt-3">
-    {% with messages = get_flashed_messages() %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
     <ul class="list-unstyled mb-0">
-      {% for message in messages %}
-      <li class="alert alert-success alert-dismissible fade show mb-2" role="alert">
+      {% for category, message in messages %}
+      <li class="alert alert-{{ 'success' if category == 'message' else 'danger' }} alert-dismissible fade show mb-2"
+        role="alert">
         {{ message }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </li>
@@ -51,6 +52,7 @@
     {% endif %}
     {% endwith %}
   </div>
+
 
 
   {% block body %} {% endblock %}

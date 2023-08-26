@@ -2,11 +2,8 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-4">
-            <!-- <img src="https://covers.openlibrary.org/b/isbn/{{book.isbn}}-M.jpg" class="img-fluid" -->
             <img src="https://covers.openlibrary.org/b/isbn/{{book.isbn}}-M.jpg" class="img-fluid mb-3"
                 alt="{{book.title}} - Cover Image" />
-
-
 
             <h4>Assign Book To Member</h4>
             <form method="post" action="/transaction/add">
@@ -14,12 +11,13 @@
                     <label for="member">Select Member:</label>
                     <select class="form-control" id="member" name="member">
                         {% for member in members %}
-                        <option value="{{ member.id }}">{{ member.first_name }} {{ member.last_name }}</option>
+                        <option value="{{ member.id }}">{{ member.first_name }} {{ member.last_name }}
+                            ({{member.username}})</option>
                         {% endfor %}
                     </select>
                 </div>
                 <input type="hidden" name="bookId" value="{{ book.id }}">
-                <button type="submit" class="btn btn-primary my-2">Borrow Book</button>
+                <button type="submit" class="btn btn-primary my-2">Issue Book</button>
             </form>
 
         </div>
@@ -34,12 +32,14 @@
             <p><b>Number of Pages:</b> {{ book.number_of_pages }}</p>
             <p><b>Publish Date:</b> {{ book.publish_date }}</p>
 
+            {% if book.subjects %}
             <h2>Subjects:</h2>
             <ul>
                 {% for subject in book.subjects %}
                 <li>{{ subject }}</li>
                 {% endfor %}
             </ul>
+            {%endif%}
 
             {% if book.subject_places %}
             <h2>Subject People:</h2>

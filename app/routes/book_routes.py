@@ -9,21 +9,21 @@ from sqlalchemy.orm.attributes import instance_dict
 @app.route("/books/")
 def books():
     books = Book.query.order_by(Book.date_added).all()
-    print(books)
     return render_template("books/list.html", books=books)
 
 
 @app.route("/books/search/", methods=["POST"])
 def searchBooks():
     query = request.form["query"].lower()
-    queryType = request.form["type"]
+    query_type = request.form["type"]
     sqlQuery = Book.title.ilike(f"%{query}%")
-    if queryType == "author":
+    if query_type == "author":
         sqlQuery = Book.author.ilike(f"%{query}%")
 
-    print(sqlQuery)
     filteredBooks = Book.query.filter(sqlQuery).all()
-    return render_template("books/list.html", books=filteredBooks)
+    return render_template(
+        "books/list.html", query=query, query_type=query_type, books=filteredBooks
+    )
 
 
 @app.route("/books/add/", methods=["GET", "POST"])
@@ -55,7 +55,6 @@ def addBooks():
 @app.route("/books/edit/<int:id>", methods=["GET", "POST"])
 def editBook(id):
     selectedBook = Book.query.get_or_404(id)
-    print(selectedBook)
     if request.method == "POST":
         try:
             selectedBook.title = request.form.get("title")
@@ -77,7 +76,6 @@ def editBook(id):
 @app.route("/books/delete/<int:id>", methods=["GET"])
 def deleteBook(id):
     selectedBook = Book.query.get_or_404(id)
-    print(selectedBook)
     if selectedBook:
         db.session.delete(selectedBook)
         db.session.commit()
@@ -87,12 +85,12 @@ def deleteBook(id):
     return redirect("/books")
 
 
-@app.route("/books/details/<int:id>")
+@app.route("/books/<int:id>")
 def getBookDetails(id):
     selectedBook = Book.query.get_or_404(id)
 
     available_members = Member.query.with_entities(
-        Member.id, Member.first_name, Member.last_name
+        Member.id, Member.first_name, Member.last_name, Member.username
     ).all()
 
     if selectedBook:
