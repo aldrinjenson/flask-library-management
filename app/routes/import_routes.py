@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
 from datetime import datetime
+import requests
 from app import app, db
 from app.model.Book import Book
-import requests
+from app.constants import language_map
 
 
 API_LIMIT = 20
@@ -32,25 +33,13 @@ def get_books_from_api(search_term, limit):
 
     # ceil
     num_iterations_needed = (limit // API_LIMIT) + 1
-    print(num_iterations_needed)
 
     all_books = []
     for i in range(num_iterations_needed):
         books_data = get_from_api(search_term, i + 1)
-        return books_data[:limit]
-        # if not books_data:
-        #     return None
-        # elif not len(books_data):
-        #     return []
+        all_books += books_data
 
-        all_books.append(books_data)
-        if len(all_books) > API_LIMIT:
-            return all_books[:limit]
-        else:
-            return all_books[:limit]
-
-    else:
-        return None
+    return all_books[:limit]
 
 
 @app.route("/import", methods=["GET", "POST"])
@@ -60,8 +49,6 @@ def search_frappe():
         limit = request.form.get("limit")
 
         matched_books = get_books_from_api(search_term, limit)
-        print("matched books")
-        print(matched_books)
 
         if matched_books and len(matched_books):
             return render_template(
@@ -103,7 +90,7 @@ def add_to_db():
             isbn=book_data["isbn"],
             isbn13=book_data["isbn13"],
             author=book_data["authors"],
-            language=book_data["language_code"],
+            language=language_map[book_data["language_code"]],
             publisher=book_data["publisher"],
             rating=float(book_data["average_rating"]),
         )

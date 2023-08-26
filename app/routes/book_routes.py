@@ -4,6 +4,7 @@ from app.model.Book import Book
 from app.model.Member import Member
 from app.utils import get_more_book_details
 from sqlalchemy.orm.attributes import instance_dict
+from app.constants import available_langs
 
 
 @app.route("/books/")
@@ -49,7 +50,9 @@ def addBooks():
         db.session.commit()
         return redirect("/books")
     else:
-        return render_template("books/form.html", book={}, route="add")
+        return render_template(
+            "books/form.html", book={}, route="add", languages=available_langs
+        )
 
 
 @app.route("/books/edit/<int:id>", methods=["GET", "POST"])
@@ -70,7 +73,12 @@ def editBook(id):
             flash("Error in updating book details. Check server logs!")
         return redirect(url_for("books"))
     else:
-        return render_template("books/form.html", book=selectedBook, route="edit")
+        return render_template(
+            "books/form.html",
+            book=selectedBook,
+            route="edit",
+            languages=available_langs,
+        )
 
 
 @app.route("/books/delete/<int:id>", methods=["GET"])

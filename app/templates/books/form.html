@@ -43,9 +43,16 @@
             </div>
             <div class="col-md-6">
               <label for="language" class="form-label">Book Language</label>
-              <input value="{{book.language or ""}}" type="text" class="form-control" id="language" name="language"
-                placeholder="eg: English">
+              <select class="form-select" id="language" name="language">
+                <option value="{{book.language}}">Select a Language</option>
+                {% for lang in languages%}
+                <option value="{{ lang }}" {% if book.language==lang %}selected{% endif %}>{{ lang }}
+                </option>
+                {% endfor %}
+              </select>
             </div>
+
+
           </div>
           {% if route == "edit" %}
           <button class="btn btn-success mt-4" type="submit">

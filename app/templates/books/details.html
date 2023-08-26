@@ -9,7 +9,7 @@
             <form method="post" action="/transaction/add">
                 <div class="form-group">
                     <label for="member">Select Member:</label>
-                    <select class="form-control" id="member" name="member">
+                    <select class="form-control" id="member" name="member" style="width: 80%;">
                         {% for member in members %}
                         <option value="{{ member.id }}">{{ member.first_name }} {{ member.last_name }}
                             (@{{member.username}})</option>

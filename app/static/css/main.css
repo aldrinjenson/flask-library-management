@@ -28,7 +28,7 @@ nav a {
 }
 
 .book-list .card-img-container {
-  height: 275px; /* Set your desired image height */
+  height: 300px; /* Set your desired image height */
   display: flex;
   align-items: center;
   justify-content: center;
