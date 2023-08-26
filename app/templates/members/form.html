@@ -2,28 +2,35 @@
 
 {% block body %}
 <div class="container">
+  <h2 class="text-center mt-2">Add New Member</h2>
   <div class="row justify-content-center">
     <div class="col-lg-6">
       <div class="addmember mt-5">
-        <form action="/members/{{route}}/{{member.id}}" method="POST">
+        <form action="/members/{{ route }}/{{ member.id }}" method="POST">
           <div class="mb-3">
-            <input value="{{member.first_name or ""}}" type="text" class="form-control" name="first_name"
-              placeholder="Member First Name">
+            <label for="first_name" class="form-label">First Name:</label>
+            <input value="{{ member.first_name or 'John' }}" type="text" class="form-control" name="first_name"
+              id="first_name" placeholder="eg: John">
           </div>
           <div class="mb-3">
-            <input value="{{member.last_name or ""}}" type="text" class="form-control" name="last_name"
-              placeholder="Member Last Name">
+            <label for="last_name" class="form-label">Last Name:</label>
+            <input value="{{ member.last_name or 'Doe' }}" type="text" class="form-control" name="last_name"
+              id="last_name" placeholder="eg: Doe">
           </div>
           <div class="mb-3">
-            <input value="{{member.email or ""}}" type="text" class="form-control" name="email" placeholder="Email">
+            <label for="email" class="form-label">Email:</label>
+            <input value="{{ member.email or 'john@gmail.com' }}" type="text" class="form-control" name="email"
+              id="email" placeholder="eg: john@gmail.com">
           </div>
           <div class="mb-3">
-            <input value="{{member.username or ""}}" type="text" class="form-control" name="username"
-              placeholder="Username">
+            <label for="username" class="form-label">Username:</label>
+            <input value="{{ member.username or 'johndoe' }}" type="text" class="form-control" name="username"
+              id="username" placeholder="eg: johndoe">
           </div>
           <div class="mb-3">
-            <input value="{{member.location or ""}}" type="text" class="form-control" name="location"
-              placeholder="Member Location">
+            <label for="location" class="form-label">Location:</label>
+            <input value="{{ member.location or 'Kochi, Kerala' }}" type="text" class="form-control" name="location"
+              id="location" placeholder="eg: Kochi, Kerala">
           </div>
           <button class="btn btn-success mt-3" type="submit">
             {% if route == "edit" %}

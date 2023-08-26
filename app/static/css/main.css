@@ -26,3 +26,16 @@ nav a {
   font-weight: bold;
   font-size: 16px;
 }
+
+.book-list .card-img-container {
+  height: 275px; /* Set your desired image height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.book-list .card-img-top {
+  object-fit: contain; /* Maintain aspect ratio */
+  max-height: 100%;
+  max-width: 100%;
+}
