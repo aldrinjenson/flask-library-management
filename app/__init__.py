@@ -12,8 +12,14 @@ app.secret_key = os.environ.get("SECRET_KEY") or "some_secret_password"  # tempo
 db.init_app(app)
 
 
-from app.routes import general_routes, book_routes, member_routes, transaction_routes
+from app.routes import (
+    general_routes,
+    book_routes,
+    member_routes,
+    transaction_routes,
+    import_routes,
+)
 
-with app.app_context():
-    print("creating db..")
-    db.create_all()
+# with app.app_context():
+#     print("creating db..")
+#     db.create_all()
