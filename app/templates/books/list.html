@@ -26,29 +26,35 @@
     <a href="/books/add" class="btn btn-primary">Add New Book</a>
   </div>
 
+  <div class="m-4">
+    <h2>Available Books</h2>
+  </div>
   <div class="row mx-md-4">
     {% for book in books %}
     <div class="col-md-4 col-sm-6 mb-4">
       <div class="card h-100 d-flex flex-column">
-        <div class="card-img-container">
-          <img src="https://covers.openlibrary.org/b/isbn/{{book.isbn}}-M.jpg" class="card-img-top img-fluid"
-            alt="Picture of {{book.title}}">
-        </div>
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title">{{book.title}}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">{{book.author}}</h6>
-          <p class="card-text"><b>Language:</b> {{book.language}}</p>
-          <p class="card-text"><b>Publisher:</b> {{book.publisher}}</p>
-          <p class="card-text"><b>Rating:</b> {{book.rating}}</p>
-          <h6 class="card-subtitle mb-2 text-muted">ISBN: {{book.isbn}}</h6>
-          <div class="row mt-3">
-            <a href="/books/edit/{{book.id}}" class="col card-link">Edit Book</a>
-            <a href="/books/delete/{{book.id}}" class="col card-link">Delete Book</a>
+        <a class="content" href="/books/details/{{book.id}}" style="text-decoration: none;">
+          <div class="card-img-container">
+            <img src="https://covers.openlibrary.org/b/isbn/{{book.isbn}}-M.jpg" class="card-img-top img-fluid"
+              alt="Picture of {{book.title}}">
           </div>
+          <div class="card-body d-flex flex-column px-md-5">
+            <h5 class="card-title underline-on-hover">{{book.title}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{book.author}}</h6>
+            <p class="card-text"><b>Language:</b> {{book.language}}</p>
+            <p class="card-text"><b>Publisher:</b> {{book.publisher}}</p>
+            <p class="card-text"><b>Rating:</b> {{book.rating}}</p>
+            <h6 class="card-subtitle mb-2 text-muted">ISBN: {{book.isbn}}</h6>
+          </div>
+        </a>
+        <div class="row container mb-4 mx-4">
+          <a href="/books/edit/{{book.id}}" class="col card-link">Edit Book</a>
+          <a href="/books/delete/{{book.id}}" class="col card-link">Delete Book</a>
         </div>
       </div>
     </div>
     {% endfor %}
+
   </div>
 
   {% endif %}

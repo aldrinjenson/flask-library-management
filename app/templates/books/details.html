@@ -1,0 +1,73 @@
+{% extends 'base.html' %} {% block body %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="https://covers.openlibrary.org/b/isbn/{{book.isbn}}-M.jpg" class="img-fluid"
+                alt="{{book.title}} - Cover Image" />
+        </div>
+        <div class="col-md-8">
+            <h1>{{ book.title }}</h1>
+            <h4>By {{ book.author }}</h4>
+            <p><b>Language:</b> {{ book.language }}</p>
+            <p><b>Publisher:</b> {{ book.publisher }}</p>
+            <p><b>Rating:</b> {{ book.rating }}</p>
+            <p><b>ISBN:</b> {{ book.isbn }}</p>
+            <p><b>ISBN13:</b> {{ book.isbn13 }}</p>
+            <p><b>Number of Pages:</b> {{ book.number_of_pages }}</p>
+            <p><b>Publish Date:</b> {{ book.publish_date }}</p>
+
+            <h2>Subjects:</h2>
+            <ul>
+                {% for subject in book.subjects %}
+                <li>{{ subject }}</li>
+                {% endfor %}
+            </ul>
+
+            {% if book.subject_places %}
+            <h2>Subject People:</h2>
+            <ul>
+                {% for person in book.subject_people %}
+                <li>{{ person }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %} {% if book.subject_places %}
+            <h2>Subject Places:</h2>
+            <ul>
+                {% for place in book.subject_places %}
+                <li>{{ place }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %} {% if book.links %}
+            <div>
+                <h2>Links:</h2>
+                <ul>
+                    {% for link in book.links %}
+                    <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %} {% if book.ebooks %}
+            <div>
+                <h2>Ebooks:</h2>
+                <ul>
+                    {% for ebook in book.ebooks %}
+                    <li>
+                        <a href="{{ ebook.preview_url }}">{{ ebook.availability }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %} {% if book.excerpts %}
+            <div>
+                <h2>Excerpts:</h2>
+                <ul>
+                    {% for excerpt in book.excerpts %}
+                    <li>{{ excerpt.text }} ({{ excerpt.comment }})</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
