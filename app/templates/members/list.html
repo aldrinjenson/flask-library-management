@@ -24,7 +24,7 @@
         <div class="card">
             <a href="/members/{{member.id}}" class="card-body text-decoration-none">
                 <h5 class="card-title text-decoration-underline">{{member.first_name}} {{member.last_name}}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">{{member.username}}</h6>
+                <h6 class="card-subtitle mb-2 text-muted">@{{member.username}}</h6>
                 <p class="card-text"><b>Email:</b> {{member.email}}</p>
                 <p class="card-text"><b>Date Added:</b> {{ member.date_added.strftime('%Y-%m-%d %H:%M') }}</p>
                 <p class="card-text"><b>Last Updated:</b> {{ member.date_updated.strftime('%Y-%m-%d %H:%M') }}</p>

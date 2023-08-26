@@ -58,7 +58,6 @@ def add_transaction():
 def return_book():
     member_id = request.form.get("member_id")
     book_id = request.form.get("book_id")
-
     transaction = Transaction.query.filter_by(
         member_id=member_id, book_id=book_id, return_date=None
     ).first()

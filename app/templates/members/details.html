@@ -1,15 +1,42 @@
-{% extends 'base.html' %}
-
-{% block body %}
+{% extends 'base.html' %} {% block body %}
 <div class="container mt-5">
+
+    <div id="confirmationModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Collect Fine</h5>
+                </div>
+                <div class="modal-body">Collect Fine and Return book?</div>
+                <div class="modal-footer">
+                    <form method="post" action="/transactions/return">
+                        <input type="hidden" name="member_id" value="{{ member.id }}" />
+                        <input type="hidden" name="book_id" id="transaction_book_id" value="" />
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                            data-bs-target="#confirmationModal">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary">Return</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-6">
             <h1>{{ member.first_name }} {{ member.last_name }}</h1>
             <p><b>Username:</b> {{ member.username }}</p>
             <p><b>Email:</b> {{ member.email }}</p>
             <p><b>Location:</b> {{ member.location }}</p>
-            <p><b>Date Added:</b> {{ member.date_added.strftime('%Y-%m-%d %H:%M') }}</p>
-            <p><b>Last Updated:</b> {{ member.date_updated.strftime('%Y-%m-%d %H:%M') }}</p>
+            <p>
+                <b>Date Added:</b> {{ member.date_added.strftime('%Y-%m-%d %H:%M') }}
+            </p>
+            <p>
+                <b>Last Updated:</b> {{ member.date_updated.strftime('%Y-%m-%d %H:%M')
+                }}
+            </p>
         </div>
         <div class="col-md-6">
             <h3>Borrowed Books</h3>
@@ -31,11 +58,22 @@
                         </td>
                         <td>{{ transaction.due_date }}</td>
                         <td>
-                            <form method="post" action="/transactions/return">
-                                <input type="hidden" name="member_id" value="{{ member.id }}">
-                                <input type="hidden" name="book_id" value="{{ transaction.book.id }}">
-                                <button type="submit" class="btn btn-danger btn-sm">Return</button>
-                            </form>
+                            {% if not transaction.return_date %}
+                            <div>
+                                {% if total_fine == 0 %}
+                                <form method="post" action="/transactions/return">
+                                    <input type="hidden" name="member_id" value="{{ member.id }}" />
+                                    <input type="hidden" name="book_id" value="{{transaction.book_id}}" />
+                                    <button type="submit" class="btn btn-primary">Return</button>
+                                </form>
+                                {% else %}
+                                <button type="button" class="return-btn btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#confirmationModal" data-book-id="{{transaction.book_id}}">
+                                    Return Book
+                                </button>
+                                {% endif %}
+                            </div>
+                            {%endif%}
                         </td>
                     </tr>
                     {% endfor %}
@@ -45,4 +83,17 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const returnButtons = document.querySelectorAll(".return-btn");
+        const bookIdInputInModal = document.querySelector("#transaction_book_id");
+        returnButtons.forEach((btn) =>
+            btn.addEventListener("click", () => {
+                const bookId = btn.getAttribute("data-book-id");
+                bookIdInputInModal.value = bookId;
+            })
+        );
+    });
+</script>
 {% endblock %}
