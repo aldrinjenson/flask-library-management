@@ -22,7 +22,7 @@
     {% for member in members %}
     <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
         <div class="card">
-            <div class="card-body">
+            <a href="/members/{{member.id}}" class="card-body">
                 <h5 class="card-title">{{member.first_name}} {{member.last_name}}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">{{member.username}}</h6>
                 <p class="card-text"><b>Email:</b> {{member.email}}</p>
@@ -37,7 +37,7 @@
                 <p class="card-text"><b>Location:</b> {{member.location}}</p>
                 <a href="/members/edit/{{member.id}}" class="card-link">Edit Member</a>
                 <a href="/members/delete/{{member.id}}" class="card-link">Delete Member</a>
-            </div>
+            </a>
         </div>
     </div>
     {% endfor %}

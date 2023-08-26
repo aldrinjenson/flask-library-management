@@ -11,7 +11,7 @@ class Transaction(db.Model):
     book_id = Column(db.Integer, ForeignKey("books.id"))
     issue_date = Column(db.Date, server_default=text("CURRENT_DATE"))
     due_date = Column(db.Date)
-    return_date = Column(db.Date)
+    return_date = Column(db.Date, default=None)
 
     member = relationship("Member", back_populates="transactions")
     book = relationship("Book", back_populates="transactions")

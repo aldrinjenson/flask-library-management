@@ -2,8 +2,26 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-4">
-            <img src="https://covers.openlibrary.org/b/isbn/{{book.isbn}}-M.jpg" class="img-fluid"
+            <!-- <img src="https://covers.openlibrary.org/b/isbn/{{book.isbn}}-M.jpg" class="img-fluid" -->
+            <img src="https://covers.openlibrary.org/b/isbn/{{book.isbn}}-M.jpg" class="img-fluid mb-3"
                 alt="{{book.title}} - Cover Image" />
+
+
+
+            <h4>Assign Book To Member</h4>
+            <form method="post" action="/transaction/add">
+                <div class="form-group">
+                    <label for="member">Select Member:</label>
+                    <select class="form-control" id="member" name="member">
+                        {% for member in members %}
+                        <option value="{{ member.id }}">{{ member.first_name }} {{ member.last_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <input type="hidden" name="bookId" value="{{ book.id }}">
+                <button type="submit" class="btn btn-primary my-2">Borrow Book</button>
+            </form>
+
         </div>
         <div class="col-md-8">
             <h1>{{ book.title }}</h1>

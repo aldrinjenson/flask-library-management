@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Transactions</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Member</th>
+                <th>Book</th>
+                <th>Issue Date</th>
+                <th>Due Date</th>
+                <th>Return Date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.id }}</td>
+                <td>{{ transaction.member.first_name }} {{ transaction.member.last_name }}
+                    (id={{transaction.member.id}})
+                </td>
+                <td>{{ transaction.book.title }} (id={{transaction.book.id}}) </td>
+                <td>{{ transaction.issue_date }}</td>
+                <td>{{ transaction.due_date }}</td>
+                <td>{{ transaction.return_date or "Not returned" }}</td>
+                <td>
+                    {% if not transaction.return_date %}
+                    <form method="post" action="/transactions/return">
+                        <input type="hidden" name="member_id" value="{{ transaction.member.id }}">
+                        <input type="hidden" name="book_id" value="{{ transaction.book.id }}">
+                        <button type="submit" class="btn btn-danger">Return Book</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

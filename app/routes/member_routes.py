@@ -2,6 +2,8 @@ from app import app, db
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, flash, url_for
 from app.model.Member import Member
+from app.model.Transaction import Transaction
+from app.utils import calculate_total_fine
 
 
 @app.route("/members")
@@ -84,3 +86,17 @@ def deleteMember(id):
     else:
         flash("Member not found.", "danger")
     return redirect("/members")
+
+
+@app.route("/members/<int:id>")
+def member_details(id):
+    member = Member.query.get_or_404(id)
+    transactions = Transaction.query.filter_by(member_id=id).all()
+    total_fine = calculate_total_fine(transactions)
+
+    return render_template(
+        "members/details.html",
+        member=member,
+        transactions=transactions,
+        total_fine=total_fine,
+    )

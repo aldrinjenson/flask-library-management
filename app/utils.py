@@ -1,7 +1,10 @@
 import requests
+from datetime import datetime
 
 
 def get_more_book_details(isbn):
+    return {}  # temporary
+
     url = (
         f"https://openlibrary.org/api/books?bibkeys=ISBN:{isbn}&format=json&jscmd=data"
     )
@@ -30,15 +33,15 @@ def get_more_book_details(isbn):
         return {}
 
 
-# isbn = (
-#     "9780590353427"  # Replace with the ISBN of the book you want to fetch details for
-# )
-# book_details = get_book_details(isbn)
-# if book_details:
-#     print(book_details)
-#     # print("Title:", book_details["title"])
-#     # print("Author:", book_details["authors"][0]["name"])
-#     # print("Publication Date:", book_details["publish_date"])
-#     # Add more details as needed
-# else:
-#     print("Book details not found.")
+fine_per_day = 1
+
+
+def calculate_total_fine(transactions):
+    total_fine = 0
+    today = datetime.now().date()  # Get today's date only
+    for transaction in transactions:
+        if transaction.return_date is None and transaction.due_date < today:
+            days_late = (today - transaction.due_date).days
+            fine = fine_per_day * days_late
+            total_fine += fine
+    return total_fine

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
 from app import app, db
 from app.model.Book import Book
+from app.model.Member import Member
 from app.utils import get_more_book_details
 from sqlalchemy.orm.attributes import instance_dict
 
@@ -89,12 +90,18 @@ def deleteBook(id):
 @app.route("/books/details/<int:id>")
 def getBookDetails(id):
     selectedBook = Book.query.get_or_404(id)
+
+    available_members = Member.query.with_entities(
+        Member.id, Member.first_name, Member.last_name
+    ).all()
+
     if selectedBook:
         extra_details = get_more_book_details(selectedBook.isbn)
         selected_book_dict = instance_dict(selectedBook)
 
         full_book = {**selected_book_dict, **extra_details}
-        print(full_book)
-        return render_template("/books/details.html", book=full_book)
+        return render_template(
+            "/books/details.html", book=full_book, members=available_members
+        )
     else:
         return redirect("/404.html")
