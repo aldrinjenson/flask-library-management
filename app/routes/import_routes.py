@@ -90,8 +90,11 @@ def add_to_db():
 
     new_books = []
     added_book_count = 0
+
+    existing_book_count = 0
     for book_data in matched_books:
         if book_data["isbn13"] in existing_isbn13s:
+            existing_book_count += 1
             continue
 
         added_book_count += 1
@@ -109,7 +112,10 @@ def add_to_db():
     try:
         db.session.bulk_save_objects(new_books)
         db.session.commit()
-        flash(f"{added_book_count} books added to the database successfully")
+        flash_msg = f"{added_book_count} books added to the database. "
+        if existing_book_count:
+            flash_msg += f"{existing_book_count} books already present in the database."
+        flash(flash_msg)
     except Exception as e:
         db.session.rollback()
         flash("Error adding books to the database", category="error")

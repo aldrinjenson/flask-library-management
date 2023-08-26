@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 def get_more_book_details(isbn):
-    return {}  # temporary
+    # return {}  # temporary
 
     url = (
         f"https://openlibrary.org/api/books?bibkeys=ISBN:{isbn}&format=json&jscmd=data"

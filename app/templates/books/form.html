@@ -47,13 +47,26 @@
                 placeholder="eg: English">
             </div>
           </div>
+          {% if route == "edit" %}
           <button class="btn btn-success mt-4" type="submit">
-            {% if route == "edit" %}
             Edit Book
-            {% else %}
-            Add Book
-            {% endif %}
           </button>
+          {% else %}
+          <div class="row mt-4 mx-1">
+            <button class="col btn btn-success" type="submit">
+              Add Book
+            </button>
+            <div class="col">
+              <h3 class="text-center">
+                OR
+              </h3>
+            </div>
+            <a class="col mt-1" href="/import">
+              Import from Frappe API
+            </a>
+
+          </div>
+          {% endif %}
         </form>
       </div>
     </div>

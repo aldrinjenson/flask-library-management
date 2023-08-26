@@ -70,7 +70,8 @@
                 <ul>
                     {% for ebook in book.ebooks %}
                     <li>
-                        <a href="{{ ebook.preview_url }}">{{ ebook.availability }}</a>
+                        Availability: <a target="_blank" rel="noopener noreferrer" href="{{ ebook.preview_url }}">{{
+                            ebook.availability }}</a>
                     </li>
                     {% endfor %}
                 </ul>
