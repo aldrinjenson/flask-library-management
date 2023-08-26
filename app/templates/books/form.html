@@ -9,33 +9,42 @@
           <div class="mb-4">
             <label for="title" class="form-label">Book Title</label>
             <input value="{{book.title or ""}}" type="text" class="form-control" id="title" name="title"
-              placeholder="Enter book title">
+              placeholder="eg: Adventures of Tom Sawyer">
           </div>
           <div class="mb-4">
             <label for="author" class="form-label">Book Author</label>
             <input value="{{book.author or ""}}" type="text" class="form-control" id="author" name="author"
-              placeholder="Enter book author">
+              placeholder="eg: Mark Twain">
           </div>
           <div class="mb-4">
-            <label for="isbn" class="form-label">ISBN</label>
-            <input value="{{book.isbn or ""}}" type="text" class="form-control" id="isbn" name="isbn"
-              placeholder="Enter ISBN">
+            <label for="publisher" class="form-label">Book Publisher</label>
+            <input value="{{book.publisher}}" type="text" class="form-control" id="publisher" name="publisher"
+              placeholder="eg: Scholastic Books">
           </div>
-          <div class="mb-4">
-            <label for="language" class="form-label">Book Language</label>
-            <input value="{{book.language or ""}}" type="text" class="form-control" id="language" name="language"
-              placeholder="Enter book language">
+          <!-- row -->
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <label for="isbn" class="form-label">ISBN</label>
+              <input value="{{book.isbn or ""}}" type="text" class="form-control" id="isbn" name="isbn"
+                placeholder="Enter ISBN">
+            </div>
+            <div class="col-md-6">
+              <label for="isbn13" class="form-label">ISBN 13</label>
+              <input value="{{book.isbn13 or ""}}" type="text" class="form-control" id="isbn13" name="isbn13"
+                placeholder="Enter ISBN 13">
+            </div>
           </div>
+          <!-- row -->
           <div class="row g-3">
             <div class="col-md-6">
               <label for="rating" class="form-label">Book Rating</label>
               <input value="{{book.rating}}" type="number" class="form-control" id="rating" name="rating" min="0"
-                step="0.1" max="5" placeholder="Enter book rating">
+                step="0.01" max="5" placeholder="eg: 4.5">
             </div>
             <div class="col-md-6">
-              <label for="quantity" class="form-label">Book Quantity</label>
-              <input value="{{book.quantity}}" type="number" class="form-control" id="quantity" name="quantity"
-                placeholder="Enter book quantity">
+              <label for="language" class="form-label">Book Language</label>
+              <input value="{{book.language or ""}}" type="text" class="form-control" id="language" name="language"
+                placeholder="eg: English">
             </div>
           </div>
           <button class="btn btn-success mt-4" type="submit">

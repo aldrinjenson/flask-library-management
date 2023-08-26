@@ -20,6 +20,6 @@ from app.routes import (
     import_routes,
 )
 
-# with app.app_context():
-#     print("creating db..")
-#     db.create_all()
+with app.app_context():
+    print("creating db..")
+    db.create_all()

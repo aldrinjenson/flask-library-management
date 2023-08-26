@@ -11,7 +11,7 @@ def books():
 
 
 @app.route("/books/search/", methods=["POST"])
-def getSearchResults():
+def searchBooks():
     query = request.form["query"].lower()
     queryType = request.form["type"]
     sqlQuery = Book.title.ilike(f"%{query}%")
@@ -28,16 +28,18 @@ def addBooks():
     if request.method == "POST":
         title = request.form.get("title")
         isbn = request.form.get("isbn")
+        isbn13 = request.form.get("isbn13")
         author = request.form.get("author")
         language = request.form.get("language", "English")
-        quantity = request.form.get("quantity", 1)
+        publisher = request.form.get("publisher")
         rating = request.form.get("rating", 5)
         newBook = Book(
             title=title,
             isbn=isbn,
+            isbn13=isbn13,
             author=author,
             language=language,
-            quantity=quantity,
+            publisher=publisher,
             rating=rating or 5,
         )
         db.session.add(newBook)
@@ -55,9 +57,10 @@ def editBook(id):
         try:
             selectedBook.title = request.form.get("title")
             selectedBook.isbn = request.form.get("isbn")
+            selectedBook.isbn13 = request.form.get("isbn13")
             selectedBook.author = request.form.get("author")
             selectedBook.language = request.form.get("language", "English")
-            selectedBook.quantity = request.form.get("quantity", 1)
+            selectedBook.publisher = request.form.get("publisher")
             selectedBook.rating = request.form.get("rating", 5)
             db.session.commit()
             flash("Book Updated successfully")

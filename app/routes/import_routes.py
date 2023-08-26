@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
+from datetime import datetime
 from app import app, db
 from app.model.Book import Book
 import requests
@@ -12,12 +13,21 @@ def get_from_api(search_term, page_num=1):
     response = requests.get(frappe_api_url)
     if response.status_code == 200:
         books_data = response.json().get("message")
-        return books_data
+
+        unique_books_dict = {}  # to skip duplicates of books having same isbn
+
+        for book in books_data:
+            isbn13 = book["isbn13"]
+            if isbn13 not in unique_books_dict:
+                unique_books_dict[isbn13] = book
+        unique_books = list(unique_books_dict.values())
+        return unique_books
     else:
         return None
 
 
-def get_books_from_api(search_term, limit=5):
+def get_books_from_api(search_term, limit):
+    limit = int(limit) if limit else 5
     print(limit)
 
     # ceil
@@ -47,14 +57,16 @@ def get_books_from_api(search_term, limit=5):
 def search_frappe():
     if request.method == "POST":
         search_term = request.form.get("search_term")
-        limit = int(request.form.get("limit") or 10)
+        limit = request.form.get("limit")
 
         matched_books = get_books_from_api(search_term, limit)
         print("matched books")
         print(matched_books)
 
         if matched_books and len(matched_books):
-            return render_template("books/import.html", books=matched_books)
+            return render_template(
+                "books/import.html", books=matched_books, query=search_term
+            )
         elif not len(matched_books):
             flash("No books matches your query. Please review and try again.")
         else:
@@ -64,6 +76,45 @@ def search_frappe():
         return render_template("books/import.html", books=[])
 
 
-@app.route("/import/add")
+@app.route("/import/add", methods=["POST"])
 def add_to_db():
-    pass
+    search_query = request.form.get("query")
+    limit = request.form.get("limit")
+
+    matched_books = get_books_from_api(search_query, limit)
+
+    existing_in_db_with_query = Book.query.filter(
+        Book.title.ilike(f"%{search_query}%")
+    ).distinct(Book.isbn13)
+    existing_isbn13s = set([book.isbn13 for book in existing_in_db_with_query])
+
+    new_books = []
+    added_book_count = 0
+    for book_data in matched_books:
+        if book_data["isbn13"] in existing_isbn13s:
+            continue
+
+        added_book_count += 1
+        new_book = Book(
+            title=book_data["title"],
+            isbn=book_data["isbn"],
+            isbn13=book_data["isbn13"],
+            author=book_data["authors"],
+            language=book_data["language_code"],
+            publisher=book_data["publisher"],
+            rating=float(book_data["average_rating"]),
+        )
+        new_books.append(new_book)
+
+    try:
+        db.session.bulk_save_objects(new_books)
+        db.session.commit()
+        flash(f"{added_book_count} books added to the database successfully")
+    except Exception as e:
+        db.session.rollback()
+        flash("Error adding books to the database", category="error")
+        print("Error:", e)
+    finally:
+        db.session.close()
+
+    return redirect("/books")

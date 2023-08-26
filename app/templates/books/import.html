@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<div class="container mt-5">
+<div class="container mt-5 text-center">
     <h1>Import Books</h1>
     <p>Search for books from Frappe API</p>
-    <form method="post" action="/import" class="row">
+    <form method="post" action="/import" class="row mx-md-5  px-md-5">
         <div class="col-md-8 mb-2">
             <input type="text" class="form-control" id="search_term" name="search_term"
-                placeholder="Search for a Book (e.g., Harry Potter)">
+                placeholder="Search for a Book (e.g., Harry Potter)" value="{{query}}">
         </div>
         <div class="col-md-4 mb-2">
             <input type="number" class="form-control" id="limit" name="limit"
@@ -18,30 +18,38 @@
         </div>
     </form>
 
+</div>
 
-    {% if books %}
-    <p>{{ books|length }} books found</p>
-    <div class="row mt-3">
-        {% for book in books %}
-        <div class="col-md-4 mb-3">
-            <div class="card shadow-sm">
-                <!-- <img src="https://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg" class="card-img-top img-fluid"
-                    alt="{{book.title}} Cover"> -->
-                <div class="card-body">
-                    <h5 class="card-title">{{ book.title }}</h5>
-                    <p class="card-text">{{ book.authors }}</p>
-                </div>
+{% if books %}
+<p>{{ books|length }} books found</p>
+<ol class="list-group mt-3">
+    {% for book in books %}
+    <li class="list-group-item mb-3">
+        <div class="row">
+            <h5 class="mb-1">{{ book.title }}</h5>
+            <div class="col-md-4">
+                <p class="mb-1">Authors: {{ book.authors }}</p>
+                <p class="mb-1">Average Rating: {{ book.average_rating }}</p>
+                <p class="mb-1">ISBN: {{ book.isbn }}</p>
+                <p class="mb-1">Language: {{ book.language_code }}</p>
+                <p class="mb-0">Publisher: {{ book.publisher }}</p>
+            </div>
+            <div class="col-md-6">
+                <p class="mb-1">Number of Pages: {{ book.num_pages }}</p>
+                <p class="mb-1">Ratings Count: {{ book.ratings_count }}</p>
+                <p class="mb-1">Text Reviews Count: {{ book.text_reviews_count }}</p>
+                <p class="mb-1">Publication Date: {{ book.publication_date }}</p>
+                <p class="mb-1">ISBN13: {{ book.isbn13 }}</p>
             </div>
         </div>
-        {% if loop.index % 3 == 0 %}
-    </div>
-    <div class="row mt-3">
-        {% endif %}
-        {% endfor %}
-    </div>
-    <form method="post" action="/import/add">
-        <button type="submit" class="btn btn-success mt-3">Import {{ books|length }} Books to DB</button>
-    </form>
-    {% endif %}
-</div>
+    </li>
+    {% endfor %}
+</ol>
+
+<form method="post" action="/import/add">
+    <input type="hidden" name="query" value="{{ query }}">
+    <input type="hidden" name="limit" value="{{ books | length }}">
+    <button type="submit" class="btn btn-success mt-3">Import {{ books|length }} Books to DB</button>
+</form>
+{% endif %}
 {% endblock %}

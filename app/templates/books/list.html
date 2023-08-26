@@ -20,13 +20,13 @@
   </div>
 </div>
 
-<div class="m-3">
+<div class="m-3 text-center">
   <a href="/books/add" class="btn btn-primary">Add New Book</a>
 </div>
 
 <div class="row">
   {% for book in books %}
-  <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+  <div class="col-lg-3 col-md-4 col-sm-6 mb-4 text-center">
     <div class="card">
       <img src="https://covers.openlibrary.org/b/isbn/{{book.isbn}}-M.jpg" class="card-img-top"
         alt="Picture of {{book.title}}">
@@ -34,7 +34,7 @@
         <h5 class="card-title">{{book.title}}</h5>
         <h6 class="card-subtitle mb-2 text-muted">{{book.author}}</h6>
         <p class="card-text"><b>Language:</b> {{book.language}}</p>
-        <p class="card-text"><b>Quantity Left:</b> {{book.quantity}}</p>
+        <p class="card-text"><b>Publisher:</b> {{book.publisher}}</p>
         <p class="card-text"><b>Rating:</b> {{book.rating}}</p>
         <h6 class="card-subtitle mb-2 text-muted">ISBN: {{book.isbn}}</h6>
         <a href="/books/edit/{{book.id}}" class="card-link">Edit Book</a>
