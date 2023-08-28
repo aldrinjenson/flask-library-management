@@ -4,3 +4,4 @@ static/css/bootstrap
 __pycache__
 bootstrap/
 .vscode
+.env
