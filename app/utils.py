@@ -1,5 +1,6 @@
 import requests
 from datetime import datetime
+from app.constants import FINE_PER_DAY
 
 
 def get_more_book_details(isbn):
@@ -36,15 +37,12 @@ def get_more_book_details(isbn):
         return {}
 
 
-fine_per_day = 10
-
-
 def calculate_total_fine(transactions):
     total_fine = 0
     today = datetime.now().date()  # Get today's date only
     for transaction in transactions:
         if transaction.return_date is None and transaction.due_date < today:
             days_late = (today - transaction.due_date).days
-            fine = fine_per_day * days_late
+            fine = FINE_PER_DAY * days_late
             total_fine += fine
     return total_fine

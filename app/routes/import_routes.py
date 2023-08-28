@@ -3,10 +3,7 @@ from datetime import datetime
 import requests
 from app import app, db
 from app.model.Book import Book
-from app.constants import language_map
-
-
-API_LIMIT = 20
+from app.constants import language_map, API_LIMIT
 
 
 def get_from_api(search_term, options, page_num=1):

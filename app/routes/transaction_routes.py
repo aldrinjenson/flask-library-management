@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, flash, url_for, jso
 from datetime import datetime, timedelta
 from app.model.Transaction import Transaction
 from app.utils import calculate_total_fine
+from app.constants import BORROW_DURATION
 
 
 @app.route("/transactions")
@@ -17,7 +18,7 @@ def add_transaction():
     book_id = int(request.form.get("bookId"))
 
     issue_date = datetime.utcnow().date()
-    due_date = issue_date + timedelta(days=7)
+    due_date = issue_date + timedelta(days=BORROW_DURATION)
 
     users_transactions = Transaction.query.filter_by(member_id=member_id).all()
     print(users_transactions)

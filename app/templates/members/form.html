@@ -19,12 +19,12 @@
           </div>
           <div class="mb-3">
             <label for="email" class="form-label">Email:</label>
-            <input value="{{ member.email or 'john@gmail.com' }}" type="text" class="form-control" name="email"
+            <input value="{{ member.email or 'john@gmail.com' }}" required type="text" class="form-control" name="email"
               id="email" placeholder="eg: john@gmail.com">
           </div>
           <div class="mb-3">
             <label for="username" class="form-label">Username:</label>
-            <input value="{{ member.username or 'johndoe' }}" type="text" class="form-control" name="username"
+            <input value="{{ member.username or '' }}" required type="text" class="form-control" name="username"
               id="username" placeholder="eg: johndoe">
           </div>
           <div class="mb-3">
