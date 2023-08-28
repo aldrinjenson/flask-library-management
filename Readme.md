@@ -14,9 +14,9 @@ BookArena is a web-based library management system that allows you to manage boo
 
 ### Extra
 
-- prevent one user from taking the same book multiple times
-- prevents one user having a fine more than 500 rs to take a book
-- fetches extra book details from openlibrary API
+- Prevents users from taking the same book multiple times without returning it.
+- Prevents users having a fine more than 500 rs to take a new book
+- Shows the following extra book details from openlibrary API for books
   - subjects
   - subject_people
   - subject_places
