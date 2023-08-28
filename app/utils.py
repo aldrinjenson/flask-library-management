@@ -10,6 +10,7 @@ def get_more_book_details(isbn):
     )
     response = requests.get(url)
     data = response.json()
+    print(data)
 
     if f"ISBN:{isbn}" in data:
         details = data[f"ISBN:{isbn}"]
@@ -23,6 +24,8 @@ def get_more_book_details(isbn):
             ][:5],
             "links": details.get("links", []),
             "cover_img": details.get("cover", {}).get("large", ""),
+            "number_of_pages": details.get("number_of_pages", ""),
+            "publish_date": details.get("publish_date", ""),
             "ebooks": details.get("ebooks", []),
             "excerpts": details.get("excerpts", []),
         }

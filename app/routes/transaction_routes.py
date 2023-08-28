@@ -7,7 +7,7 @@ from app.utils import calculate_total_fine
 
 @app.route("/transactions")
 def get_transactions():
-    transactions = Transaction.query.all()
+    transactions = Transaction.query.order_by(Transaction.issue_date.desc()).all()
     return render_template("transactions/list.html", transactions=transactions)
 
 
@@ -43,7 +43,7 @@ def add_transaction():
     try:
         db.session.add(new_transaction)
         db.session.commit()
-        flash("Transaction added successfully")
+        flash("Book issued successfully")
     except Exception as e:
         db.session.rollback()
         flash("Error adding transaction", category="error")

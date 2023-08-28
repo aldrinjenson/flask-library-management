@@ -9,8 +9,10 @@ from app.constants import language_map
 API_LIMIT = 20
 
 
-def get_from_api(search_term, page_num=1):
-    frappe_api_url = f"https://frappe.io/api/method/frappe-library?title={search_term}&page={page_num}"
+def get_from_api(search_term, options, page_num=1):
+    authors = options["authors"]
+    publisher = options["publisher"]
+    frappe_api_url = f"https://frappe.io/api/method/frappe-library?title={search_term}&page={page_num}&authors={authors}&publisher={publisher}"
     response = requests.get(frappe_api_url)
     if response.status_code == 200:
         books_data = response.json().get("message")
@@ -18,6 +20,7 @@ def get_from_api(search_term, page_num=1):
         unique_books_dict = {}  # to skip duplicates of books having same isbn
 
         for book in books_data:
+            book["num_pages"] = book["  num_pages"]
             isbn13 = book["isbn13"]
             if isbn13 not in unique_books_dict:
                 unique_books_dict[isbn13] = book
@@ -27,16 +30,17 @@ def get_from_api(search_term, page_num=1):
         return None
 
 
-def get_books_from_api(search_term, limit):
+def get_books_from_api(search_term, limit, options):
     limit = int(limit) if limit else 5
     print(limit)
+    print(options)
 
     # ceil
     num_iterations_needed = (limit // API_LIMIT) + 1
 
     all_books = []
     for i in range(num_iterations_needed):
-        books_data = get_from_api(search_term, i + 1)
+        books_data = get_from_api(search_term, options, i + 1)
         all_books += books_data
 
     return all_books[:limit]
@@ -47,8 +51,12 @@ def search_frappe():
     if request.method == "POST":
         search_term = request.form.get("search_term")
         limit = request.form.get("limit")
+        publisher = request.form.get("publisher", "")
+        authors = request.form.get("author", "")
 
-        matched_books = get_books_from_api(search_term, limit)
+        options = {"publisher": publisher, "authors": authors}
+
+        matched_books = get_books_from_api(search_term, limit, options)
 
         if matched_books and len(matched_books):
             return render_template(
@@ -67,8 +75,12 @@ def search_frappe():
 def add_to_db():
     search_query = request.form.get("query")
     limit = request.form.get("limit")
+    publisher = request.form.get("publisher", "")
+    authors = request.form.get("author", "")
 
-    matched_books = get_books_from_api(search_query, limit)
+    options = {"publisher": publisher, "authors": authors}
+
+    matched_books = get_books_from_api(search_query, limit, options)
 
     existing_in_db_with_query = Book.query.filter(
         Book.title.ilike(f"%{search_query}%")
@@ -85,12 +97,14 @@ def add_to_db():
             continue
 
         added_book_count += 1
+        language_code = book_data["language_code"]
+
         new_book = Book(
             title=book_data["title"],
             isbn=book_data["isbn"],
             isbn13=book_data["isbn13"],
             author=book_data["authors"],
-            language=language_map[book_data["language_code"]],
+            language=language_map.get(language_code, language_code),
             publisher=book_data["publisher"],
             rating=float(book_data["average_rating"]),
         )

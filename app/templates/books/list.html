@@ -29,10 +29,12 @@
   {% else %}
   <div class="m-4">
     <h2>Available Books</h2>
+    <p>{{ books|length }} books in Library</p>
   </div>
+
   <div class="row mx-md-4">
     {% for book in books %}
-    <div class="col-md-4 col-sm-6 mb-4">
+    <div class="col-lg-4 col-sm-6 mb-4">
       <div class="card h-100 d-flex flex-column">
         <a class="content" href="/books/{{book.id}}" style="text-decoration: none;">
           <div class="card-img-container">

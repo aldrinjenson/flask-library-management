@@ -1,55 +1,67 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<div class="container mt-5 text-center">
-    <h1>Import Books</h1>
-    <p>Search for books from Frappe API</p>
-    <form method="post" action="/import" class="row mx-md-5  px-md-5">
-        <div class="col-md-8 mb-2">
-            <input type="text" class="form-control" id="search_term" name="search_term"
-                placeholder="Search for a Book (e.g., Harry Potter)" value="{{query}}">
+<div class="container mt-5">
+    <div class="text-center" id="text">
+        <h1>Import Books</h1>
+        <p>Search for books from Frappe API</p>
+    </div>
+    <form method="post" action="/import" class="mx-md-5 px-md-5">
+        <div class="mb-3">
+            <label for="search_term" class="form-label">Search for a Book (e.g., Harry Potter)</label>
+            <input type="text" class="form-control" id="search_term" name="search_term" value="{{query}}"
+                placeholder="Enter book title">
         </div>
-        <div class="col-md-4 mb-2">
-            <input type="number" class="form-control" id="limit" name="limit"
-                placeholder="Number of books to add (e.g., 10)">
-        </div>
-        <div class="col-md-12 mb-2">
-            <button type="submit" class="btn btn-primary">Search</button>
-        </div>
-    </form>
-
-</div>
-
-{% if books %}
-<p>{{ books|length }} books found</p>
-<ol class="list-group mt-3">
-    {% for book in books %}
-    <li class="list-group-item mb-3">
-        <div class="row">
-            <h5 class="mb-1">{{ book.title }}</h5>
-            <div class="col-md-4">
-                <p class="mb-1">Authors: {{ book.authors }}</p>
-                <p class="mb-1">Average Rating: {{ book.average_rating }}</p>
-                <p class="mb-1">ISBN: {{ book.isbn }}</p>
-                <p class="mb-1">Language: {{ book.language_code }}</p>
-                <p class="mb-0">Publisher: {{ book.publisher }}</p>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="limit" class="form-label">Number of books to fetch (default = 5)</label>
+                <input type="number" class="form-control" id="limit" name="limit" placeholder="Enter number of books">
             </div>
             <div class="col-md-6">
-                <p class="mb-1">Number of Pages: {{ book.num_pages }}</p>
-                <p class="mb-1">Ratings Count: {{ book.ratings_count }}</p>
-                <p class="mb-1">Text Reviews Count: {{ book.text_reviews_count }}</p>
-                <p class="mb-1">Publication Date: {{ book.publication_date }}</p>
-                <p class="mb-1">ISBN13: {{ book.isbn13 }}</p>
+                <label for="author" class="form-label">Author (e.g., Mark Twain)</label>
+                <input type="text" class="form-control" id="author" name="author" placeholder="Enter author name">
             </div>
         </div>
-    </li>
-    {% endfor %}
-</ol>
+        <div class="mb-3">
+            <label for="publisher" class="form-label">Publisher (e.g., Scholastic)</label>
+            <input type="text" class="form-control" id="publisher" name="publisher" placeholder="Enter publisher">
+        </div>
+        <button type="submit" class="btn btn-primary">Search Books</button>
+    </form>
+</div>
 
-<form method="post" action="/import/add">
-    <input type="hidden" name="query" value="{{ query }}">
-    <input type="hidden" name="limit" value="{{ books | length }}">
-    <button type="submit" class="btn btn-success mt-3">Import {{ books|length }} Books to DB</button>
-</form>
+<div class="mx-md-5 px-md-5 mt-4">
+    {% if books %}
+    <p> <strong>{{ books|length }}</strong> books found</p>
+    <ol class="list-group mt-3">
+        {% for book in books %}
+        <li class="list-group-item mb-3">
+            <div class="row">
+                <h5 class="mb-1">{{ book.title }}</h5>
+                <div class="col-md-4">
+                    <p class="mb-1"><strong>Authors:</strong> {{ book.authors }}</p>
+                    <p class="mb-1"><strong>Average Rating:</strong> {{ book.average_rating }}</p>
+                    <p class="mb-1"><strong>ISBN:</strong> {{ book.isbn }}</p>
+                    <p class="mb-1"><strong>Language:</strong> {{ book.language_code }}</p>
+                    <p class="mb-0"><strong>Publisher:</strong> {{ book.publisher }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-1"><strong>Number of Pages:</strong> {{ book.num_pages }}</p>
+                    <p class="mb-1"><strong>Ratings Count:</strong> {{ book.ratings_count }}</p>
+                    <p class="mb-1"><strong>Text Reviews Count:</strong> {{ book.text_reviews_count }}</p>
+                    <p class="mb-1"><strong>Publication Date:</strong> {{ book.publication_date }}</p>
+                    <p class="mb-1"><strong>ISBN13:</strong> {{ book.isbn13 }}</p>
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ol>
+
+    <form method="post" action="/import/add">
+        <input type="hidden" name="query" value="{{ query }}">
+        <input type="hidden" name="limit" value="{{ books | length }}">
+        <button type="submit" class="btn btn-success mt-3">Import {{ books|length }} Books to DB</button>
+    </form>
+</div>
 {% endif %}
 {% endblock %}

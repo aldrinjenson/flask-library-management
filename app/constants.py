@@ -10,6 +10,7 @@ language_map = {
     "jpn": "Japanese",
     "chi": "Chinese",
     "kor": "Korean",
+    "spa": "Spanish",
     "ara": "Arabic",
     "hin": "Hindi",
     "rus": "Russian",

@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block body %}
-<div class="container mt-5">
+<div class="container mt-5" id="book-details">
     <div class="row">
         <div class="col-md-4">
             <img src="https://covers.openlibrary.org/b/isbn/{{book.isbn}}-M.jpg" class="img-fluid mb-3"
@@ -29,8 +29,13 @@
             <p><b>Rating:</b> {{ book.rating }}</p>
             <p><b>ISBN:</b> {{ book.isbn }}</p>
             <p><b>ISBN13:</b> {{ book.isbn13 }}</p>
+
+            {% if book.publish_date %}
             <p><b>Number of Pages:</b> {{ book.number_of_pages }}</p>
+            {%endif%}
+            {% if book.publish_date %}
             <p><b>Publish Date:</b> {{ book.publish_date }}</p>
+            {%endif%}
 
             {% if book.subjects %}
             <h2>Subjects:</h2>
