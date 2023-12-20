@@ -23,6 +23,10 @@ def get_from_api(search_term, options, page_num=1):
                 unique_books_dict[isbn13] = book
         unique_books = list(unique_books_dict.values())
         return unique_books
+    # elif response.status_code == 9999: # or whatever other error code given by API for retry_after
+    #     retry_after_seconds = response.json().get("retry_after")
+    #     time.sleep(retry_after_seconds)
+    #     return get_from_api(search_term, options, page_num)
     else:
         return None
 

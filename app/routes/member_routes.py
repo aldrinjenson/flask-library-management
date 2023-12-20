@@ -1,6 +1,7 @@
 from app import app, db
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, flash, url_for
+from sqlalchemy.exc import IntegrityError
 from app.model.Member import Member
 from app.model.Transaction import Transaction
 from app.utils import calculate_total_fine
@@ -28,9 +29,21 @@ def addMembers():
             date_updated=datetime.utcnow(),
             location=location,
         )
-        db.session.add(newMember)
-        db.session.commit()
-        return redirect("/members")
+        try:
+            db.session.add(newMember)
+            db.session.commit()
+            flash("New user added successfully")
+            return redirect("/members")
+        except IntegrityError as e:
+            print(e)
+            db.session.rollback()
+            flash(
+                "Error: Username must be unique. Choose a different username.", "error"
+            )
+            app.logger.error(f"IntegrityError: {e}")
+            return render_template(
+                "members/form.html", member=request.form, route="add"
+            )
     else:
         return render_template("members/form.html", member={}, route="add")
 
@@ -50,9 +63,9 @@ def editMember(id):
             selectedMember.location = request.form.get("location")
             selectedMember.date_updated = datetime.utcnow()
             db.session.commit()
-            flash("Member Updated successfully !")
+            flash("Member Updated successfully!")
         except:
-            flash("Error in updating member details. Check server logs!")
+            flash("Error in updating member details. Check server logs!", "error")
         return redirect(url_for("members"))
     else:
         return render_template("members/form.html", member=selectedMember, route="edit")

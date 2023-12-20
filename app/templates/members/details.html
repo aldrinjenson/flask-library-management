@@ -56,7 +56,7 @@
                                 {{ transaction.book.title }}
                             </a>
                         </td>
-                        <td>{{ transaction.due_date }}</td>
+                        <td>{{ transaction.due_date.strftime('%d-%m-%Y') }}</td>
                         <td>
                             {% if not transaction.return_date %}
                             <div>

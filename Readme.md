@@ -42,9 +42,9 @@ Here are some screenshots of BookArena in action:
 
 1. Clone the repository:
 
-   ```sh
-   git clone https://github.com/aldrinjenson/bookarena.git
-   ```
+```sh
+git clone https://github.com/aldrinjenson/bookarena.git
+```
 
 2. Install dependencies:
 

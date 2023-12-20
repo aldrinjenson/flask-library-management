@@ -32,8 +32,8 @@
                     </a>
                 </td>
                 <td>{{ transaction.issue_date }}</td>
-                <td>{{ transaction.due_date }}</td>
-                <td>{{ transaction.return_date or "Not returned" }}</td>
+                <td>{{ transaction.due_date.strftime('%d-%m-%Y') }}</td>
+                <td>{{ transaction.return_date.strftime('%d-%m-%Y') or "Not returned" }}</td>
                 <td>
                     {% if not transaction.return_date %}
                     <form method="post" action="/transactions/return">

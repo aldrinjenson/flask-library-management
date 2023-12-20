@@ -15,6 +15,7 @@ class Book(db.Model):
     publisher = db.Column(db.String, default="")
     rating = db.Column(db.Float, default=5)
     date_added = db.Column(db.DateTime, default=datetime.utcnow())
+
     transactions = relationship("Transaction", back_populates="book")
 
     def __init__(
